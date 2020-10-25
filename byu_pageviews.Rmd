@@ -14,7 +14,7 @@ library(dygraphs)
 library(xts)
 ```
 
-Description of time series forecasting
+A common task for many businesses is forecasting demand for some product, website, call center, etc. This is often known as time series forecasting, where the time series is the sequence of values throughout time which you are interested in predicting. This can be a complicated task since daily time series often depend on time of year, time of month, day of the week, business promotions, holidays, along with a host of other possible factors. ARIMA and exponential smoothing models can perform well with less complicated data, but one great package for complicated daily time series is prophet by facebook. Prophet uses a generalized additive model which is very good at accounting for multiple seasonalities along with holidays and other special effects. In this example I will use a prophet model to predict the amount of pageviews the Wikipedia page for the BYU football team will get over the last three months of 2020. 
 
 ```{r}
 df <- read_csv('byu_pageviews.csv') %>% 
@@ -56,7 +56,7 @@ wins <- c(1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0,
           )
 ```
 
-Description of byu pageview data. 
+The BYU football team plays as an independent FBS football team. The season generally starts in late August or early September, and lasts through late November. There is also generally a bowl game which is played sometime in late December or early January. Games are normally played on Saturday, with occasional games on Friday. With that in mind, let's start to look at the data. 
 
 ```{r}
 xts(select(df, y), df$ds) %>% 
@@ -64,7 +64,7 @@ xts(select(df, y), df$ds) %>%
   dySeries('y', 'Actual', 'black')
 ```
 
-Talk about plot. 
+This data was collected using the Wikipedia pageview statistics tool [here](https://pageviews.toolforge.org/?project=en.wikipedia.org&platform=all-access&agent=user&redirects=0&range=latest-20&pages=BYU_Cougars_football). The data starts on July 1, 2015, and ends on October 3, 2020. 
 
 ```{r}
 gridExtra::grid.arrange(
