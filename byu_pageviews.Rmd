@@ -20,7 +20,7 @@ A common task for many businesses is forecasting demand for some product, websit
 df <- read_csv('byu_pageviews.csv') %>% 
   rename(ds = Date, y = `BYU Cougars football`)
 
-game_dates <- as_date(c('2015-09-05', '2015-09-12', '2015-09-19', '2015-09-26',
+games <- as_date(c('2015-09-05', '2015-09-12', '2015-09-19', '2015-09-26',
   '2015-10-02', '2015-10-10', '2015-10-16', '2015-10-24',
   '2015-11-06', '2015-11-14', '2015-11-21', '2015-11-28', 
   '2015-12-19',
@@ -64,7 +64,7 @@ xts(select(df, y), df$ds) %>%
   dySeries('y', 'Actual', 'black')
 ```
 
-This data was collected using the Wikipedia pageview statistics tool [here](https://pageviews.toolforge.org/?project=en.wikipedia.org&platform=all-access&agent=user&redirects=0&range=latest-20&pages=BYU_Cougars_football). The data starts on July 1, 2015, and ends on October 3, 2020. 
+This data was collected using the Wikipedia pageview statistics tool [here](https://pageviews.toolforge.org/?project=en.wikipedia.org&platform=all-access&agent=user&redirects=0&range=latest-20&pages=BYU_Cougars_football). The data starts on July 1, 2015, and ends on October 3, 2020. We can see that the BYU Cougars Football page gets a lot more visits on  
 
 ```{r}
 gridExtra::grid.arrange(
@@ -84,12 +84,12 @@ Talk about seasonality.
 
 ```{r}
 xreg <- list(
-  game_days = tibble(ds = game_dates) %>% 
+  game_days = tibble(ds = games) %>% 
     group_by(year(ds)) %>% 
     mutate(holiday = row_number()) %>% 
     ungroup %>% 
     transmute(holiday = str_c('G', holiday), ds),
-  day_after = tibble(ds = game_dates + 1) %>% 
+  day_after = tibble(ds = games + 1) %>% 
     group_by(year(ds)) %>% 
     mutate(holiday = row_number()) %>% 
     ungroup %>% 
